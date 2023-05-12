@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.0.0] - 2023-05-12
+## [2.0.0] - 2023-05-13
 
 _This release comprises a complete rewrite of the extension from scratch by the new lead maintainer, [toebeann]._
 
