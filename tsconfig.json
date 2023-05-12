@@ -1,0 +1,17 @@
+{
+    "extends": "@tsconfig/recommended/tsconfig.json",
+    "compilerOptions": {
+        "outDir": "out",
+        "moduleResolution": "node",
+        "removeComments": true,
+        "sourceMap": false,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "types": ["raw-loader.d.ts", "node"],
+        "typeRoots": ["node_modules/@types", "./types"],
+        "lib": ["es2021"]
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules"]
+}
