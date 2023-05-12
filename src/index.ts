@@ -197,5 +197,5 @@ const gamemodeActivated = async (api: IExtensionApi) => {
     await validateChangelog(api);
 }
 
-const didDeploy = (api: IExtensionApi) =>
-    Promise.all([validateBepInEx(api), validateQModManager(api)]);
+const didDeploy = async (api: IExtensionApi) =>
+    await Promise.all([validateBepInEx(api), validateQModManager(api)]);
