@@ -24,9 +24,6 @@ You can also manually install it by downloading the main file and dragging it in
 
 Afterwards, restart Vortex and you can begin installing supported Subnautica: Below Zero mods with Vortex.
 
-[Vortex]: https://www.nexusmods.com/about/vortex/
-[Vortex Mod Manager]: https://www.nexusmods.com/about/vortex/
-
 **<center><big>The rest of this page is intended for mod authors only.<br/>Users can simply follow the instructions above to install, and you're done!</big></center>**
 
 <center><a href="https://ko-fi.com/toebean_" target="_blank"><img src="https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/61e11d503cc13747866d338b_Button-2-p-800.png" alt="Support toebeann on Ko-fi"/></a></center>
@@ -283,3 +280,6 @@ Any of the following structures are valid. Note that although these examples onl
 #### My mod is being installed strangely!
 
 If you have followed the packaging examples above and your mod is still being incorrectly installed by this extension, please [raise an issue on the GitHub repository](https://github.com/toebeann/subnautica-below-zero-support/issues) with a link to your mod page or with a sample archive attached so that I can get it fixed.
+
+[Vortex]: https://www.nexusmods.com/about/vortex/
+[Vortex Mod Manager]: https://www.nexusmods.com/about/vortex/
