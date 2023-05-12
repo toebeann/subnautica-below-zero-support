@@ -106,23 +106,25 @@ export const validateBepInEx = async (api: IExtensionApi) => {
     const currentConfig = store.get('bepinex-config') ?? 'unknown';
     const needsConfig = isQModManagerEnabled(api.getState()) && areAnyQModsEnabled(api.getState()) ? 'legacy' : 'stable';
 
-    if (currentConfig !== needsConfig) {
-        // user is using the wrong config, so we need to reinstall BepInEx to switch to the correct config
-
-        const potentials = getMods(api.getState(), 'enabled').filter(mod => [BEPINEX_5_MOD_TYPE, BEPINEX_6_MOD_TYPE].includes(mod.type));
-        const bepinex = potentials.length === 1 ? potentials[0] : undefined;
-
+    if (currentConfig === needsConfig) {
         api.dismissNotification?.('reinstall-bepinex');
-        api.sendNotification?.({
-            id: 'reinstall-bepinex',
-            type: 'warning',
-            title: api.translate('{{bepinex}} config file update needed', TRANSLATION_OPTIONS),
-            message: api.translate(`Please reinstall {{bepinex}} to apply update.`, TRANSLATION_OPTIONS),
-            actions: [
-                bepinex // if there's only one matching BepInEx mod installed, we can reinstall it automatically
-                    ? { title: api.translate('Reinstall', TRANSLATION_OPTIONS), action: () => reinstallMod(api, bepinex) }
-                    : { title: api.translate('Get {{bepinex}}', TRANSLATION_OPTIONS), action: () => opn(BEPINEX_URL) }
-            ],
-        });
+        return;
     }
+
+    // user is using the wrong config, so we need to reinstall BepInEx to switch to the correct config
+
+    const potentials = getMods(api.getState(), 'enabled').filter(mod => [BEPINEX_5_MOD_TYPE, BEPINEX_6_MOD_TYPE].includes(mod.type));
+    const bepinex = potentials.length === 1 ? potentials[0] : undefined;
+
+    api.sendNotification?.({
+        id: 'reinstall-bepinex',
+        type: 'warning',
+        title: api.translate('{{bepinex}} config file update needed', TRANSLATION_OPTIONS),
+        message: api.translate(`Please reinstall {{bepinex}} to apply update.`, TRANSLATION_OPTIONS),
+        actions: [
+            bepinex // if there's only one matching BepInEx mod installed, we can reinstall it automatically
+                ? { title: api.translate('Reinstall', TRANSLATION_OPTIONS), action: () => reinstallMod(api, bepinex) }
+                : { title: api.translate('Get {{bepinex}}', TRANSLATION_OPTIONS), action: () => opn(BEPINEX_URL) }
+        ],
+    });
 }
