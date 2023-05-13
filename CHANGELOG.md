@@ -4,7 +4,7 @@
 
 ### Fixed
 
-- Resolve an issue where the latest changelog displays every time you switched to the Subnautica: Below Zero game mode, rather than just when an important update is released
+- Resolve an issue where the latest changelog displays every time you switched to the Subnautica: Below Zero game mode, rather than just when an important update is released ([`eed8028`](https://github.com/toebeann/subnautica-below-zero-support/commit/eed8028))
 
 ## [2.0.0] - 2023-05-13
 
