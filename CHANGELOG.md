@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.1] - 2023-05-13
+
+### Fixed
+
+- Resolve an issue where the latest changelog displays every time you switched to the Subnautica: Below Zero game mode, rather than just when an important update is released
+
 ## [2.0.0] - 2023-05-13
 
 _This release comprises a complete rewrite of the extension from scratch by the new lead maintainer, [toebeann]._
@@ -40,5 +46,6 @@ _Changelogs for this release were not recorded by the prior maintainers._
 
 _Changelogs for this release were not recorded by the prior maintainers._
 
+[2.0.1]: https://github.com/toebeann/subnautica-below-zero-support/releases/tag/v2.0.1
 [2.0.0]: https://github.com/toebeann/subnautica-below-zero-support/releases/tag/v2.0.0
 [toebeann]: https://github.com/toebeann

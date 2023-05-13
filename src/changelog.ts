@@ -2,7 +2,7 @@ import changelogMd from '!!raw-loader!../CHANGELOG.md';
 import { version } from '../package.json';
 import { EXTENSION_ID } from './constants';
 import { markdownToHtml, stripMarkdown } from './utils';
-import { gt, lt, major, parse, prerelease, valid } from 'semver';
+import { gte, lt, major, parse, prerelease, valid } from 'semver';
 import store2 from 'store2';
 import { types } from 'vortex-api';
 import { z } from 'zod';
@@ -117,7 +117,7 @@ export const parseChangelog = async (changelog = changelogMd) => {
 
             const version = valid(parse(await stripMarkdown(`${release.value.split(' - ')[0]?.trim().slice(3) ?? ''}\n\n${mappedReferences.map(({ value }) => value).join('\n')}`)));
             const date = Date.parse(release.value.split(' - ')[1]?.trim() ?? '');
-            const seen = version && gt(lastSeen.version, version) || (lastSeen.date && lastSeen.date > date);
+            const seen = version && gte(lastSeen.version, version) || (lastSeen.date && lastSeen.date >= date);
             const important =
                 (version && lastSeen.version && major(version) > major(lastSeen.version)) ||
                 notice.length > 0 ||
