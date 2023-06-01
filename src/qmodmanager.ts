@@ -56,7 +56,7 @@ export const validateQModManager = async (api: IExtensionApi) => {
             title: api.translate(`{{qmodmanager}} is ${disabledQmm ? 'disabled' : 'not installed'}`, TRANSLATION_OPTIONS),
             message: api.translate('{{qmodmanager}} is required to use {{qmods}}.', TRANSLATION_OPTIONS),
             actions: [
-                disabledQmm // if there's only one matching QMM mod, we can enable it automatically
+                disabledQmm // if QMM is disabled, offer to enable it
                     ? { title: api.translate('Enable'), action: () => enableMods(api, true, disabledQmm.id) }
                     : { title: api.translate('Get {{qmm}}', TRANSLATION_OPTIONS), action: () => opn(QMM_URL) }
             ],

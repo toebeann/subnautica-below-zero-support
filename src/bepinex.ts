@@ -87,7 +87,7 @@ export const validateBepInEx = async (api: IExtensionApi) => {
             title: api.translate(`{{bepinex}} is ${disabledBepInEx ? 'disabled' : 'not installed'}`, TRANSLATION_OPTIONS),
             message: api.translate('{{bepinex}} is required to mod {{game}}.', TRANSLATION_OPTIONS),
             actions: [
-                disabledBepInEx // if there's a BepInEx pack installed, offer to enable it
+                disabledBepInEx // if BepInEx pack is disabled, offer to enable it
                     ? { title: api.translate('Enable'), action: () => enableMods(api, true, disabledBepInEx.id) }
                     : { title: api.translate('Get {{bepinex}}', TRANSLATION_OPTIONS), action: () => opn(BEPINEX_URL) }
             ]
