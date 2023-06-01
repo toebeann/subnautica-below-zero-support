@@ -90,31 +90,35 @@ export const install = async (api: IExtensionApi, files: string[]) => {
 
     return <IInstallResult>{
         instructions: [
-            ...files.filter(file => !file.endsWith(sep)).map((source) => {
-                let destination = source;
+            ...files
+                .filter(file => !file.endsWith(sep))
+                .map((source) => {
+                    let destination = source;
 
-                if (shouldEnableLegacyConfig) {
-                    if (source === legacyConfig) {
-                        const dir = dirname(source);
-                        const file = basename(source).split('.').filter(x => x !== 'legacy').join('.');
-                        destination = join(dir, file);
-                    } else if (source === stableConfig) {
-                        const dir = dirname(source);
-                        const file = basename(source).split('.');
-                        file.splice(file.length - 1, 0, 'stable');
-                        destination = join(dir, file.join('.'));
+                    if (shouldEnableLegacyConfig && legacyConfig && stableConfig) {
+                        if (source === legacyConfig) {
+                            const dir = dirname(source);
+                            const file = basename(source).split('.').filter(x => x !== 'legacy').join('.');
+                            destination = join(dir, file);
+                        } else if (source === stableConfig) {
+                            const dir = dirname(source);
+                            const file = basename(source).split('.');
+                            file.splice(file.length - 1, 0, 'stable');
+                            destination = join(dir, file.join('.'));
+                        }
                     }
-                }
 
-                return <IInstruction>{
-                    type: 'copy',
-                    source,
-                    destination
-                }
-            }).filter(instruction =>
-                instruction.destination !== stableConfig ||
-                !shouldEnableLegacyConfig ||
-                (legacyConfig && instruction.source === legacyConfig))
+                    return <IInstruction>{
+                        type: 'copy',
+                        source,
+                        destination
+                    }
+                })
+                .filter(instruction =>
+                    !legacyConfig ||
+                    instruction.destination !== stableConfig ||
+                    !shouldEnableLegacyConfig ||
+                    (legacyConfig && instruction.source === legacyConfig))
         ]
     }
 }
