@@ -207,7 +207,7 @@ details > summary .expand {
 
 details[open] > summary .expand {
   rotate: 0deg;
-}</style>${html}</div>`,
+}</style>${html.replace("<details", "<details open")}</div>`,
         }, [{
             label: 'I understand', action: () => store(LAST_SEEN, {
                 version: releases[0].version,
@@ -240,7 +240,7 @@ export const migrateVersion = async (version: string) => {
     const lastUsed: Version = versionParser.safeParse(store(LAST_USED)).success
         ? store(LAST_USED)
         : { version: '0.0.0' };
-    
+
     if (lt(lastUsed.version, version)) {
         store(LAST_USED, { version, date: lastUsed.date });
     }
