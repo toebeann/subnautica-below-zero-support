@@ -222,7 +222,7 @@ export const validateChangelog = async (api: IExtensionApi) => {
         store(LAST_USED, { version: releases[0].version, date: releases[0].date });
 
         api.sendNotification?.({
-            type: 'info',
+            type: 'success',
             title: 'Extension updated',
             message: 'Subnautica: Below Zero Support extension updated',
             actions: [{ title: 'Changelog', action: () => showChangelog(api, html, releases) }],
