@@ -42,9 +42,9 @@ export const BEPINEX_PATCHERS_DIR = 'patchers';
 export const BEPINEX_MOD_PATH = join(BEPINEX_DIR, BEPINEX_PLUGINS_DIR);
 
 /**
- * Utility function to determine whether BepInEx is installed via the Vortex API.
+ * Utility function to determine whether BepInEx is enabled via the Vortex API.
  * @param state 
- * @returns True if BepInEx is installed, false otherwise. Always returns false if BepInEx was not installed via Vortex.
+ * @returns True if BepInEx is enabled, false otherwise.
  */
 export const isBepInExEnabled = (state: IState) =>
     getMods(state, 'enabled').some(mod => [BEPINEX_5_MOD_TYPE, BEPINEX_6_MOD_TYPE].includes(mod.type));
@@ -87,8 +87,8 @@ export const validateBepInEx = async (api: IExtensionApi) => {
             title: api.translate(`{{bepinex}} is ${disabledBepInEx ? 'disabled' : 'not installed'}`, TRANSLATION_OPTIONS),
             message: api.translate('{{bepinex}} is required to mod {{game}}.', TRANSLATION_OPTIONS),
             actions: [
-                disabledBepInEx // if there's only one matching BepInEx mod installed, we can enable it automatically
-                    ? { title: api.translate('Enable', TRANSLATION_OPTIONS), action: () => enableMods(api, true, disabledBepInEx.id) }
+                disabledBepInEx // if there's a BepInEx pack installed, offer to enable it
+                    ? { title: api.translate('Enable'), action: () => enableMods(api, true, disabledBepInEx.id) }
                     : { title: api.translate('Get {{bepinex}}', TRANSLATION_OPTIONS), action: () => opn(BEPINEX_URL) }
             ]
         });
@@ -123,7 +123,7 @@ export const validateBepInEx = async (api: IExtensionApi) => {
         message: api.translate(`Please reinstall {{bepinex}} to apply update.`, TRANSLATION_OPTIONS),
         actions: [
             bepinex // if there's only one matching BepInEx mod installed, we can reinstall it automatically
-                ? { title: api.translate('Reinstall', TRANSLATION_OPTIONS), action: () => reinstallMod(api, bepinex) }
+                ? { title: api.translate('Reinstall'), action: () => reinstallMod(api, bepinex) }
                 : { title: api.translate('Get {{bepinex}}', TRANSLATION_OPTIONS), action: () => opn(BEPINEX_URL) }
         ],
     });

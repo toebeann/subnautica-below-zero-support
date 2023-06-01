@@ -72,10 +72,10 @@ export const getMods = <T extends 'enabled' | 'disabled' | 'uninstalled' | 'all'
  * @param gameId The game ID to reinstall the mod for. Defaults to Subnautica: Below Zero.
  * @returns True if the mod was reinstalled, false otherwise.
  */
-export const reinstallMod = async (api: IExtensionApi, mod: IMod, gameId: string = NEXUS_GAME_ID): Promise<boolean> => {
+export const reinstallMod = (api: IExtensionApi, mod: IMod, gameId: string = NEXUS_GAME_ID): Promise<boolean> => {
     if (currentGame(api.getState())?.id !== gameId ||
         !mod.attributes?.fileName) {
-        return false;
+        return Promise.resolve(false);
     }
 
     return toPromise(callback => api.events.emit('start-install-download', mod.archiveId, {
