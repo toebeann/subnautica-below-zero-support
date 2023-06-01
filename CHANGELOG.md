@@ -24,6 +24,10 @@ _This release comprises a complete rewrite of the extension from scratch by the 
 - Notify the user that they need to install BepInEx if it is not already installed
 - Add a changelog GUI to automatically let users know about updates
 
+### Removed
+
+- Drop support for Vortex versions older than 1.8.0
+
 ## 1.2.4 - 2022-06-30
 
 ### Added
