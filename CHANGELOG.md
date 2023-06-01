@@ -36,11 +36,15 @@ _Changelogs for this release were not recorded by the prior maintainers._
 
 ## 1.2.2 - 2021-04-25
 
-_Changelogs for this release were not recorded by the prior maintainers._
+### Changed
+
+- Prevent installing multiple QMods from a single archive
 
 ## 1.2.1 - 2021-02-15
 
-_Changelogs for this release were not recorded by the prior maintainers._
+### Added
+
+- Support installing QModManager
 
 ## 1.2.0 - 2021-02-05
 
