@@ -2,11 +2,13 @@ import { join } from 'path';
 import { store } from '.';
 import { TRANSLATION_OPTIONS } from './constants';
 import { areAnyQModsEnabled, isQModManagerEnabled } from './qmodmanager';
-import { getDiscovery, getMods, reinstallMod, enableMods } from './utils';
+import { getDiscovery, getMods, reinstallMod, enableMods, isFile } from './utils';
 import { BEPINEX_5_CORE_DLL, BEPINEX_5_MOD_TYPE } from './mod-types/bepinex-5';
 import { BEPINEX_6_CORE_DLL, BEPINEX_6_MOD_TYPE } from './mod-types/bepinex-6';
-import { fs, types, util } from 'vortex-api';
+import { NEXUS_GAME_ID } from './platforms/nexus';
+import { fs, selectors, types, util } from 'vortex-api';
 import statAsync = fs.statAsync;
+import installPathForGame = selectors.installPathForGame;
 import IDiscoveryResult = types.IDiscoveryResult;
 import IExtensionApi = types.IExtensionApi;
 import IState = types.IState;
@@ -106,7 +108,12 @@ export const validateBepInEx = async (api: IExtensionApi) => {
     const currentConfig = store.get('bepinex-config') ?? 'unknown';
     const needsConfig = isQModManagerEnabled(api.getState()) && areAnyQModsEnabled(api.getState()) ? 'legacy' : 'stable';
 
-    if (currentConfig === needsConfig) {
+    const bepinexPacks = getMods(api.getState(), 'enabled').filter(mod => [BEPINEX_5_MOD_TYPE, BEPINEX_6_MOD_TYPE].includes(mod.type));
+    const stagingFolder = installPathForGame(api.getState(), NEXUS_GAME_ID);
+
+    if (currentConfig === needsConfig ||
+        (bepinexPacks.length === 1 &&
+            !await isFile(join(stagingFolder, bepinexPacks[0].installationPath, BEPINEX_DIR, BEPINEX_CONFIG_DIR, `bepinex.${needsConfig}.cfg`)))) {
         api.dismissNotification?.('reinstall-bepinex');
         return;
     }

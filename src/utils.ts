@@ -6,8 +6,9 @@ import rehypeFormat from 'rehype-format';
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
 import strip from 'strip-markdown';
-import { actions, selectors, types, util } from 'vortex-api';
+import { actions, fs, selectors, types, util } from 'vortex-api';
 import setModsEnabled = actions.setModsEnabled;
+import statAsync = fs.statAsync;
 import activeProfile = selectors.activeProfile;
 import currentGame = selectors.currentGame;
 import discoveryByGame = selectors.discoveryByGame;
@@ -92,6 +93,19 @@ export const reinstallMod = (api: IExtensionApi, mod: IMod, gameId: string = NEX
  * @returns 
  */
 export const enableMods = (api: IExtensionApi, enabled: boolean, ...modIds: string[]) => setModsEnabled(api, activeProfile(api.getState()).id, modIds, enabled);
+
+/**
+ * Utility function to determine if a path is a file on disk.
+ * @param path 
+ * @returns 
+ */
+export const isFile = async (path: string) => {
+    try {
+        return (await statAsync(path)).isFile();
+    } catch {
+        return false;
+    }
+}
 
 /**
  * Strips markdown formatting from the given string.
