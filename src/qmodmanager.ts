@@ -23,7 +23,7 @@ export const QMM_MOD_PATH = 'QMods';
 /**
  * Utility function to determine whether QModManager is enabled via the Vortex API.
  * @param state 
- * @returns True if QModManager is installed, false otherwise. Always returns false if QModManager was not installed and enabled via Vortex.
+ * @returns True if QModManager is enabled, false otherwise.
  */
 export const isQModManagerEnabled = (state: IState) =>
     getMods(state, 'enabled').some(mod =>
