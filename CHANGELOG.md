@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.3] - 2023-06-08
+
+_Users affected by an issue where some QMods were not being installed correctly should reinstall the affected QMods._
+
+### Fixed
+
+- Resolve issue where QMod archives which include a "QMods" folder result in nested "QMods" folders when installed ([`c9c262b`](https://github.com/toebeann/subnautica-below-zero-support/commit/c9c262b))
+
 ## [2.0.2] - 2023-06-01
 
 ### Changed
@@ -66,6 +74,7 @@ _Changelogs for this release were not recorded by the prior maintainers._
 
 _Changelogs for this release were not recorded by the prior maintainers._
 
+[2.0.3]: https://github.com/toebeann/subnautica-below-zero-support/releases/tag/v2.0.3
 [2.0.2]: https://github.com/toebeann/subnautica-below-zero-support/releases/tag/v2.0.2
 [2.0.1]: https://github.com/toebeann/subnautica-below-zero-support/releases/tag/v2.0.1
 [2.0.0]: https://github.com/toebeann/subnautica-below-zero-support/releases/tag/v2.0.0
