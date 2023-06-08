@@ -180,7 +180,7 @@ Mods which meet all of the following criteria are eligible to be installed as ei
     - MyMod.dll
   ```
 
-When a user installs an eligible mod, they will be prompted to choose whether they would like to install it for QModManager or BepInEx. The one exception to this rule is when the user only has BepInEx installed but not QModManager, to prevent bugging them with annoying questions.
+When a user installs an eligible mod, they will be prompted to choose whether they would like to install it for QModManager or BepInEx. The one exception to this rule is when the user only has BepInEx installed but not QModManager, to prevent bugging them with annoying questions. In this case, the mod will automatically be installed as a BepInEx plugin.
 
 #### CustomHullPlates addon packs
 
