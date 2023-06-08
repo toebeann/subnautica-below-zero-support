@@ -17,7 +17,7 @@
  */
 import { basename, dirname, join, sep } from 'path';
 import { getDiscovery } from '../utils';
-import { QMM_MOD_PATH } from '../qmodmanager';
+import { QMM_MOD_DIR } from '../qmodmanager';
 import { CUSTOMHULLPLATES_FOLDER, MRPURPLE6411_ADDON_FILES, MRPURPLE6411_ADDON_MANIFEST } from '../installers/mrpurple6411-addon-pack';
 import { NEXUS_GAME_ID } from '../platforms/nexus';
 import { types } from 'vortex-api';
@@ -45,7 +45,7 @@ export const isSupported = (gameId: string): boolean => gameId === NEXUS_GAME_ID
  * @returns 
  */
 // TODO: improve the logic to test whether customhullplates is installed as a bepinex plugin or a qmod
-export const getPath = (state: IState, game: IGame): string => join(getDiscovery(state, game.id)?.path ?? '', QMM_MOD_PATH);
+export const getPath = (state: IState, game: IGame): string => join(getDiscovery(state, game.id)?.path ?? '', QMM_MOD_DIR);
 
 /**
  * Determines whether a given mod is of this mod type.

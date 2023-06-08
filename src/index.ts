@@ -21,7 +21,7 @@ import { version } from '../package.json';
 import { BEPINEX_MOD_PATH, validateBepInEx } from './bepinex';
 import { migrateVersion, parseChangelog, validateChangelog } from './changelog';
 import { EXTENSION_ID, GAME_EXE, GAME_NAME, UNITY_PLAYER } from './constants';
-import { QMM_MOD_PATH, validateQModManager } from './qmodmanager';
+import { QMM_MOD_DIR, validateQModManager } from './qmodmanager';
 import { getDiscovery, getModPath, getMods } from './utils';
 import registerInstallerBepInEx from './installers/bepinex';
 import registerInstallerBepInExMixed from './installers/bepinex-mixed';
@@ -185,7 +185,7 @@ const debugSetup = (context: IExtensionContext) => {
  */
 const setup = async (api: IExtensionApi, discovery: IDiscoveryResult | undefined = getDiscovery(api.getState())) => {
     if (discovery?.path) {
-        await Promise.all([QMM_MOD_PATH, BEPINEX_MOD_PATH].map(path => ensureDirWritableAsync(join(discovery.path!, path))));
+        await Promise.all([QMM_MOD_DIR, BEPINEX_MOD_PATH].map(path => ensureDirWritableAsync(join(discovery.path!, path))));
     }
 }
 
