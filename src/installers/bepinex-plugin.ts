@@ -21,6 +21,7 @@ import { BEPINEX_INJECTOR_CORE_FILES } from './bepinex';
 import { BEPINEX_CORE_DIR, BEPINEX_DIR, BEPINEX_PLUGINS_DIR, isBepInExEnabled } from '../bepinex';
 import { TRANSLATION_OPTIONS } from '../constants';
 import { isQModManagerEnabled } from '../qmodmanager';
+import { QMM_MOD_DIR } from '../qmodmanager';
 import { getDiscovery } from '../utils';
 import { BEPINEX_PLUGIN_MOD_TYPE } from '../mod-types/bepinex-plugin';
 import { QMM_MOD_MANIFEST, QMM_MOD_MOD_TYPE } from '../mod-types/qmodmanager-mod';
@@ -67,7 +68,8 @@ export const install = async (api: IExtensionApi, files: string[], workingPath: 
     const assemblyDir = basename(dirname(assembly));
     const assemblyDirIndex = assembly.split(sep).indexOf(assemblyDir);
     const filtered = sansDirectories.filter(file => file.split(sep).indexOf(assemblyDir) === assemblyDirIndex);
-    const index = assembly.split(sep).indexOf(BEPINEX_PLUGINS_DIR);
+    const modType = await getModType(api, filtered, workingPath);
+    const index = assembly.split(sep).indexOf(modType === QMM_MOD_MOD_TYPE ? QMM_MOD_DIR : BEPINEX_PLUGINS_DIR);
 
     const instructions = filtered.map((source): IInstruction => ({
         type: 'copy',
@@ -75,80 +77,91 @@ export const install = async (api: IExtensionApi, files: string[], workingPath: 
         destination: join(dirname(source).split(sep).slice(index + 1).join(sep), basename(source)),
     }));
 
-    // if the mod contains both a QModManager manifest and a BepInEx plugin, we should ask the user which mod loader to install for
-    if (sansDirectories.some(f => basename(f).toLowerCase() === QMM_MOD_MANIFEST) &&
-        await hasBepInExPlugins(api, files, workingPath)) {
+    return <IInstallResult>{
+        instructions: hasQmmManifest(filtered) && modType !== QMM_MOD_MOD_TYPE
+            ? instructions.filter(instruction => basename(instruction.destination ?? '').toLowerCase() !== QMM_MOD_MANIFEST)
+            : instructions
+    };
+}
 
-        const qmmEnabled = isQModManagerEnabled(api.getState());
-        const bepinexEnabled = isBepInExEnabled(api.getState());
-
-        // when the user has both or neither QMM and BepInEx enabled
-        // (or only QMM, because it won't work without BepInEx anyway),
-        // we should ask the user which mod loader to use
-        if ((qmmEnabled && bepinexEnabled) ||
-            (!qmmEnabled && !bepinexEnabled) ||
-            qmmEnabled) {
-
-            const result = await api.showDialog?.('question', 'Choose mod type', {
-                text: 'This mod can be installed for either {{qmodmanager}} or {{bepinex}}. Would you like to:',
-                choices: [
-                    {
-                        id: 'bepinex',
-                        value: true,
-                        text: 'Install as the "BepInEx Plugin" mod type',
-                        subText: api.translate('This is the recommended option, and will use {{bepinex}} as the mod loader for this mod.', TRANSLATION_OPTIONS),
-                    },
-                    {
-                        id: 'qmodmanager',
-                        value: false,
-                        text: 'Install as the "QModManager Mod" mod type',
-                        subText: api.translate(
-                            'This will use {{qmodmanager}} as the mod loader for this mod. ' +
-                            'Please note that {{qmodmanager}} has been deprecated and will no longer be receiving updates.',
-                            TRANSLATION_OPTIONS),
-                    },
-                ],
-                bbcode:
-                    'If you later change your mind about which mod loader to use for this mod, you can change it ' +
-                    'by double-clicking the mod in the mods list and changing the changing the "Mod Type" option:{{br}}{{br}}' +
-                    '[b]BepInEx Plugin[/b] will cause the mod to be loaded by {{bepinex}}.{{br}}{{br}}' +
-                    '[b]QModManager Mod[/b] will cause the mod to be loaded by {{qmodmanager}}.{{br}}{{br}}' +
-                    'You may also install a variant of the mod by right-clicking it in the mods list and selecting "Reinstall," and choosing ' +
-                    '"[b]Install as variant of the existing mod[/b]." This will enable you to easily toggle between the mod types.',
-                options: {
-                    wrap: true,
-                    order: ['text', 'choices', 'bbcode']
-                },
-                parameters: TRANSLATION_OPTIONS.replace
-            }, [
-                { label: 'Cancel' },
-                { label: 'Continue' },
-            ]) as IDialogResult | undefined;
-
-            if (result?.action === 'Cancel') {
-                throw new UserCanceled();
-            }
-
-            instructions.push({
-                type: 'setmodtype',
-                value: result?.input['qmodmanager'] ? QMM_MOD_MOD_TYPE : BEPINEX_PLUGIN_MOD_TYPE
-            });
-
-            if (result?.input['bepinex']) {
-                return <IInstallResult>{
-                    instructions: instructions.filter(instruction => instruction.type !== 'copy' || basename(instruction.destination ?? '') !== QMM_MOD_MANIFEST)
-                }
-            }
-        } else {
-            instructions.push({
-                type: 'setmodtype',
-                value: BEPINEX_PLUGIN_MOD_TYPE
-            });
-        }
+/**
+ * A helper utility to determine the mod type of the given mod files.
+ * @param api 
+ * @param files 
+ * @param workingPath 
+ * @returns 
+ */
+const getModType = async (api: IExtensionApi, files: string[], workingPath: string) => {
+    if (!hasQmmManifest(files)) {
+        return BEPINEX_PLUGIN_MOD_TYPE;
     }
 
-    return <IInstallResult>{ instructions };
+    if (!await hasBepInExPlugins(api, files, workingPath)) {
+        return QMM_MOD_MOD_TYPE;
+    }
+
+    const qmmEnabled = isQModManagerEnabled(api.getState());
+    const bepinexEnabled = isBepInExEnabled(api.getState());
+
+    // when the user has both or neither QMM and BepInEx enabled
+    // (or only QMM, because it won't work without BepInEx anyway),
+    // we should ask the user which mod loader to use
+    if ((qmmEnabled && bepinexEnabled) ||
+        (!qmmEnabled && !bepinexEnabled) ||
+        qmmEnabled) {
+
+        const result = await api.showDialog?.('question', 'Choose mod type', {
+            text: 'This mod can be installed for either {{qmodmanager}} or {{bepinex}}. Would you like to:',
+            choices: [
+                {
+                    id: 'bepinex',
+                    value: true,
+                    text: 'Install as the "BepInEx Plugin" mod type',
+                    subText: api.translate('This is the recommended option, and will use {{bepinex}} as the mod loader for this mod.', TRANSLATION_OPTIONS),
+                },
+                {
+                    id: 'qmodmanager',
+                    value: false,
+                    text: 'Install as the "QModManager Mod" mod type',
+                    subText: api.translate(
+                        'This will use {{qmodmanager}} as the mod loader for this mod. ' +
+                        'Please note that {{qmodmanager}} has been deprecated and will no longer be receiving updates.',
+                        TRANSLATION_OPTIONS),
+                },
+            ],
+            bbcode:
+                'If you later change your mind about which mod loader to use for this mod, you can change it ' +
+                'by double-clicking the mod in the mods list and changing the changing the "Mod Type" option:{{br}}{{br}}' +
+                '[b]BepInEx Plugin[/b] will cause the mod to be loaded by {{bepinex}}.{{br}}{{br}}' +
+                '[b]QModManager Mod[/b] will cause the mod to be loaded by {{qmodmanager}}.{{br}}{{br}}' +
+                'You may also install a variant of the mod by right-clicking it in the mods list and selecting "Reinstall," and choosing ' +
+                '"[b]Install as variant of the existing mod[/b]." This will enable you to easily toggle between the mod types.',
+            options: {
+                wrap: true,
+                order: ['text', 'choices', 'bbcode']
+            },
+            parameters: TRANSLATION_OPTIONS.replace
+        }, [
+            { label: 'Cancel' },
+            { label: 'Continue' },
+        ]) as IDialogResult | undefined;
+
+        if (result?.action === 'Cancel') {
+            throw new UserCanceled();
+        }
+
+        return result?.input['qmodmanager'] ? QMM_MOD_MOD_TYPE : BEPINEX_PLUGIN_MOD_TYPE;
+    }
+
+    return BEPINEX_PLUGIN_MOD_TYPE;
 }
+
+/**
+ * A helper utility to determine whether the given mod files contain a QModManager manifest.
+ * @param files 
+ * @returns
+ */
+const hasQmmManifest = (files: string[]) => files.some(f => basename(f).toLowerCase() === QMM_MOD_MANIFEST);
 
 /**
  * A helper utility to determine whether the given mod files contain BepInEx plugins via the BepInEx.AssemblyInspection.Console.exe command-line utility.
