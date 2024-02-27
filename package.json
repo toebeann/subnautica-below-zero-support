@@ -52,7 +52,7 @@
     "remark-rehype": "^10.1.0",
     "rimraf": "^5.0.1",
     "store2": "^2.14.2",
-    "strip-markdown": "^5.0.1",
+    "strip-markdown": "^6.0.0",
     "ts-loader": "^8.4.0",
     "typescript": "^5.0.4",
     "vortex-api": "github:Nexus-Mods/vortex-api",
