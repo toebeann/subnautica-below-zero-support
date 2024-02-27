@@ -16,7 +16,7 @@
  * this program; if not, see <https://www.gnu.org/licenses>.
  */
 import { TRANSLATION_OPTIONS } from './constants';
-import { getMods, enableMods } from './utils';
+import { enableMods, getMods } from './utils';
 import { QMM_4_MOD_TYPE } from './mod-types/qmodmanager-4';
 import { QMM_MOD_MOD_TYPE } from './mod-types/qmodmanager-mod';
 import { NEXUS_GAME_ID } from './platforms/nexus';
