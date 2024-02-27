@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.0.4] - 2024-02-27
+
+### Changed
+
+- Reduce disk footprint of `BepInEx.AssemblyInspection.Console.exe` binary ([`881bcae`](https://github.com/toebeann/subnautica-below-zero-support/commit/881bcae))
+
+### Fixed
+
+- Improve detection of whether QModManager is currently enabled with Vortex ([`e54f3ad`](https://github.com/toebeann/subnautica-below-zero-support/commit/e54f3ad))
+
 ## [2.0.3] - 2023-06-08
 
 _Users affected by an issue where some QMods were not being installed correctly should reinstall the affected QMods._
@@ -74,6 +84,7 @@ _Changelogs for this release were not recorded by the prior maintainers._
 
 _Changelogs for this release were not recorded by the prior maintainers._
 
+[2.0.4]: https://github.com/toebeann/subnautica-below-zero-support/releases/tag/v2.0.4
 [2.0.3]: https://github.com/toebeann/subnautica-below-zero-support/releases/tag/v2.0.3
 [2.0.2]: https://github.com/toebeann/subnautica-below-zero-support/releases/tag/v2.0.2
 [2.0.1]: https://github.com/toebeann/subnautica-below-zero-support/releases/tag/v2.0.1
