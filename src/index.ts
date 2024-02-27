@@ -116,13 +116,6 @@ export default function main(context: IExtensionContext): boolean {
     context.once(() => {
         initDevConsole(context);
 
-        context.api.events.on('gamemode-activated', async (gameMode: string) => {
-            if (gameMode !== NEXUS_GAME_ID) {
-                return;
-            }
-
-            await gamemodeActivated(context.api);
-        });
 
         context.api.onAsync('did-deploy', async (profileId: string) => {
             if (profileById(context.api.getState(), profileId)?.gameId !== NEXUS_GAME_ID) {
@@ -132,8 +125,6 @@ export default function main(context: IExtensionContext): boolean {
             await didDeploy(context.api);
         });
     });
-
-
 
     registerModTypeBepInEx5(context);
     registerModTypeBepInEx6(context);
@@ -211,6 +202,9 @@ const setup = async (api: IExtensionApi, discovery: IDiscoveryResult | undefined
     if (discovery?.path) {
         await Promise.all([QMM_MOD_DIR, BEPINEX_MOD_PATH].map(path => ensureDirWritableAsync(join(discovery.path!, path))));
     }
+
+    await Promise.all([validateBepInEx(api), validateQModManager(api)]);
+    await validateChangelog(api);
 }
 
 const requiresLauncher: Required<IGame>['requiresLauncher'] = async (_, store) => {
