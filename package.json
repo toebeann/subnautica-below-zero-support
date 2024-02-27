@@ -51,7 +51,7 @@
     "remark": "^14.0.3",
     "remark-rehype": "^10.1.0",
     "rimraf": "^5.0.1",
-    "store2": "^2.14.2",
+    "store2": "^2.14.3",
     "strip-markdown": "^6.0.0",
     "ts-loader": "^8.4.0",
     "typescript": "^5.0.4",
