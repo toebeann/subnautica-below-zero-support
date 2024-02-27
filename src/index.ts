@@ -113,7 +113,7 @@ export default function main(context: IExtensionContext): boolean {
         }
     });
 
-    context.once(async () => {
+    context.once(() => {
         initDevConsole(context);
 
         context.api.events.on('gamemode-activated', async (gameMode: string) => {
