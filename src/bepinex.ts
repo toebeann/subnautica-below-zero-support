@@ -36,6 +36,10 @@ import opn = util.opn;
  */
 export const BEPINEX_URL = 'https://www.nexusmods.com/subnauticabelowzero/mods/344';
 /**
+ * Nexus Mods ID for BepInEx.
+ */
+export const BEPINEX_NEXUS_ID = 344;
+/**
  * BepInEx directory name.
  */
 export const BEPINEX_DIR = 'BepInEx';

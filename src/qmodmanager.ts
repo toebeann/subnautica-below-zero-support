@@ -29,6 +29,10 @@ import opn = util.opn;
  */
 export const QMM_URL = 'https://www.nexusmods.com/subnauticabelowzero/mods/1';
 /**
+ * Nexus Mods ID for QModManager.
+ */
+export const QMM_NEXUS_ID = 1;
+/**
  * QModManager directory name.
  */
 export const QMM_DIR = 'QModManager';
