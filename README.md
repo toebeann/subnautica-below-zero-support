@@ -13,6 +13,7 @@ At this time, the following mod types are supported:
 - QMods
 - CustomHullPlates addon packs
 - CustomPosters addon packs
+- Any .zip, .rar or .7z archive designed to have its contents installed directly into the `BepInEx/plugins` folder
 
 If you are developing a different kind of mod and would like it to be supported by this extension, please [raise an issue or pull request on the GitHub repository](https://github.com/toebeann/subnautica-below-zero-support/issues) with a link to your mod page so that I can take a look at how you are packaging it. Please make sure to include instructions for how you would expect it to be installed, so that I can have Vortex automate the process. PRs welcome!
 
@@ -34,11 +35,13 @@ Afterwards, restart Vortex and you can begin installing supported Subnautica: Be
 
 ## How to make my mod compatible with this extension?
 
+First things first, make sure to set your latest main file as your main Vortex file, and also ensure that the "`Remove the 'Download with Manager' button`" option is unticked. Be sure to double check this whenever you release an update!
+
 Assuming your mod is of a supported type, simply follow the packaging examples for that mod type below.
 
-Don't forget to set your latest main file as your main Vortex file, and make sure that the "`Remove the 'Download with Manager' button`" option is unticked!
+Mod types which are not explictly supported or detected by this extension are simply unpacked into the `BepInEx/plugins` folder, so you can take advantage of this for any new mod types that require you to install files to a subdirectory of `BepInEx/plugins` by structuring your archive as if you expect its contents to be placed into the `BepInEx/plugins` folder when installed manually.
 
-If your mod is not of a supported type, you will need to [raise an issue or pull request on the GitHub repository](https://github.com/toebeann/subnautica-below-zero-support/issues) with a link to your mod page so that I can take a look at how you are packaging it. Please make sure to include instructions for how you would expect it to be installed.
+If your mod is not of a supported type or cannot be installed by simply unzipping its contents into the the `BepInEx/plugins` folder, you will need to [raise an issue or pull request on the GitHub repository](https://github.com/toebeann/subnautica-below-zero-support/issues) with a link to your mod page so that I can take a look at how you are packaging it. Please make sure to include instructions for how you would expect it to be installed.
 
 ### Packaging examples
 
