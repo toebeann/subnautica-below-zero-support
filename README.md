@@ -13,7 +13,7 @@ At this time, the following mod types are supported:
 - QMods
 - CustomHullPlates addon packs
 - CustomPosters addon packs
-- Miscellaneous BepInEx mods e.g. hybrid BepInEx plugin/patcher combos, BepInEx config files, or any files designed to be installed to at least one of the BepInEx/config, BepInEx/plugins or BepInEx/patchers folders
+- Miscellaneous BepInEx mods e.g. hybrid BepInEx plugin/patcher combos, BepInEx config files, or any files designed to be installed to at least one of the `BepInEx/config`, `BepInEx/plugins` or `BepInEx/patchers` folders
 - Any .zip, .rar or .7z archive designed to have its contents installed directly into the `BepInEx/plugins` folder
 
 If you are developing a different kind of mod and would like it to be supported by this extension, please [raise an issue or pull request on the GitHub repository](https://github.com/toebeann/subnautica-below-zero-support/issues) with a link to your mod page so that I can take a look at how you are packaging it. Please make sure to include instructions for how you would expect it to be installed, so that I can have Vortex automate the process. PRs welcome!
