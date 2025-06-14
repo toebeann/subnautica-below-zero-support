@@ -207,21 +207,21 @@ Any of the following structures are valid:
 📂 EpicStructureLoader
    📂 Structures
       📄 My Really Cool Structure.structure
-📂 TerrainPatcher
-    📂 patches
-       📄 My Really Cool Terrain Patch.optoctreepatch
-```
-
-```
-📂 EpicStructureLoader
-   📂 Structures
-      📄 My Really Cool Structure.structure
 ```
 
 ```
 📂 TerrainPatcher
    📂 patches
       📄 My Really Cool Terrain Patch.optoctreepatch
+```
+
+```
+📂 EpicStructureLoader
+   📂 Structures
+      📄 My Really Cool Structure.structure
+📂 TerrainPatcher
+    📂 patches
+       📄 My Really Cool Terrain Patch.optoctreepatch
 ```
 
 **Note:** The above examples are non-exhausitive, as long as you are trying to install at least _one_ file of _any_ file extension or type to at least _one_ of the `BepInEx/config`, `BepInEx/plugins`, or `BepInEx/patchers` folders (or subfolders thereof), you should be in the clear - the extension will try to figure it out based on the folder structure. If there's nothing obvious to suggest which BepInEx subfolder to unpack the archive into, it will target the `BepInEx/plugins` folder by default.
